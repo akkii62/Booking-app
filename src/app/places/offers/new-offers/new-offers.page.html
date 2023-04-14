@@ -1,0 +1,180 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="places/offers"></ion-back-button>
+    </ion-buttons>
+    <ion-title>New Offer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Title</ion-label>
+            <ion-input
+              type="text"
+              autocomplete
+              autocorrect
+              formControlName="title"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Short Description</ion-label>
+            <ion-textarea rows="3" formControlName="description"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngIf="!form.get('description').valid && form.get('description').touched && form.get('description').errors?.['required']"
+      >
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger">
+            <p>Description must be between 1 and 180 characters</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngIf="form.get('description').touched && form.get('description').errors?.['maxlength']"
+      >
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger">
+            <p>must contains less than 180 characters</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">ImgUrl</ion-label>
+            <ion-input type="text" formControlName="imgUrl"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input type="number" formControlName="price"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngIf="form.get('price').errors?.['required'] && form.get('price').touched"
+      >
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger">
+            <p>price can't be Empty</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngIf="form.get('price').errors?.['min'] && form.get('price').touched"
+      >
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger">
+            <p>price isn't valid</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">off Percentage</ion-label>
+            <ion-input
+              type="number"
+              formControlName="offPercentage"
+              min="0"
+              max="100"
+              step="1"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngIf="form.get('offPercentage').errors?.['min'] || form.get('offPercentage').errors?.['max']"
+      >
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger">
+            <p>Percentage should be between 0 and 100</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="4" offset-sm="4">
+          <ion-item>
+            <ion-label position="floating" style="margin-bottom: 35px"
+              >Available from</ion-label
+            >
+
+            <ion-datetime
+              [(ngModel)]="storedDate"
+              [min]="getTodayDate()"
+              [max]="getDateAfter10Years()"
+              formControlName="dateFrom"
+            ></ion-datetime>
+
+            <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  id="datetime"
+                  [(ngModel)]="storedDate"
+                  [min]="getTodayDate()"
+                  [max]="getDateAfter10Years()"
+                  formControlName="dateFrom"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal> -->
+          </ion-item>
+        </ion-col>
+        <ion-col size-sm="4" offset-sm="4">
+          <ion-item>
+            <ion-label position="floating" style="margin-bottom: 35px"
+              >Available to</ion-label
+            >
+            <ion-datetime
+              [min]="storedDate"
+              [max]="getDateAfter10Years()"
+              formControlName="dateTo"
+            ></ion-datetime>
+
+            <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  [min]="storedDate"
+                  [max]="getDateAfter10Years()"
+                  formControlName="dateTo"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal> -->
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

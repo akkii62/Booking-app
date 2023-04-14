@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Offers</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/places/offers/new-offers"
+        ><ion-icon name="add-outline"></ion-icon
+      ></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-list>
+          <ion-item-sliding *ngFor="let place of loadedplaces">
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <ion-img [src]="place.imgUrl"></ion-img>
+              </ion-thumbnail>
+              <ion-label [routerLink]="['/', 'places', 'offers', place.id]">
+                <ion-row>
+                  <ion-col
+                    ><h1>
+                      <ion-col style="color: rgb(0, 0, 0)"
+                        >{{ place.title }}</ion-col
+                      >
+                    </h1></ion-col
+                  >
+                  <ion-col class="price-off" *ngIf="place.offPercentage"
+                    ><ion-button class="ion-text-lowercase offer-button"
+                      >{{place.offPercentage}}% off</ion-button
+                    ></ion-col
+                  >
+                </ion-row>
+                <ion-row
+                  ><ion-col *ngIf="place.offPercentage" class="price-color"
+                    ><strong class="price-color"
+                      ><s>{{place.price | currency:'INR'}}</s></strong
+                    >&nbsp;
+                    <strong class="disounted-price-color"
+                      >{{place.price - (place.price*place.offPercentage)/100 |
+                      currency:'INR'}}</strong
+                    ></ion-col
+                  >
+                  <ion-col *ngIf="!place.offPercentage"
+                    ><strong class="price-color"
+                      >{{place.price | currency:'INR'}}</strong
+                    ></ion-col
+                  >
+                </ion-row>
+              </ion-label>
+            </ion-item>
+            <ion-item-options>
+              <ion-item-option
+                [routerLink]="['/places','offers','edit', place.id]"
+              >
+                <ion-icon name="create" slot="icon-only"></ion-icon>
+              </ion-item-option>
+              <ion-item-option
+                color="danger"
+                (click)="onClickDelete(place.id)"
+                [routerLink]="['/', 'places', 'offers']"
+              >
+                <ion-icon name="trash" slot="icon-only"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

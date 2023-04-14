@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Your booking</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-list>
+          <ion-item-sliding
+            *ngFor="let loadedBooking of loadedBookings"
+            #slidingBooking
+          >
+            <ion-item>
+              <ion-thumbnail>
+                <ion-img [src]="loadedBooking.imgUrl"></ion-img>
+              </ion-thumbnail>
+              <ion-label>
+                <ion-row>
+                  <ion-col>
+                    <strong style="color: blueviolet"
+                      >{{loadedBooking.placeTitle}}</strong
+                    >
+                  </ion-col>
+                  <ion-col> </ion-col>
+                  <ion-col>
+                    <b>Guests:</b> {{loadedBooking.guestNumber}}
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <b>Name:</b> {{loadedBooking.firstName}}
+                    {{loadedBooking.lastName}}
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <p>
+                    <ion-col>
+                      <b>From:</b> {{loadedBooking.startDate|
+                      date:'dd/MMM/yyyy'}}</ion-col
+                    >
+                    <ion-col>
+                      <b>To:</b> {{loadedBooking.endDate| date:'dd/MMM/yyyy'}}
+                    </ion-col>
+                  </p>
+                </ion-row>
+              </ion-label>
+            </ion-item>
+            <ion-item-options>
+              <ion-item-option
+                color="danger"
+                (click)="onCancelBooking(loadedBooking.id)"
+              >
+                <ion-icon name="trash" slot="icon-only"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

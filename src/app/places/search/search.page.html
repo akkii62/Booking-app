@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Discover Places</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-segment value="all" (ionChange)="onFilterUpdate($event)">
+    <ion-segment-button value="all">All Places</ion-segment-button>
+    <ion-segment-button value="bookable">Bookable Places</ion-segment-button>
+  </ion-segment>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-card class="card">
+          <ion-card-header>
+            <ion-card-title><b>{{loadedplaces?.[0]?.title}}</b></ion-card-title>
+            <ion-card-subtitle
+              class="disounted-price-color"
+              *ngIf="!loadedplaces?.[0]?.offPercentage"
+              >{{loadedplaces?.[0]?.price | currency:'INR':true }}
+              /Night</ion-card-subtitle
+            >
+
+            <ion-card-subtitle *ngIf="loadedplaces?.[0]?.offPercentage"
+              ><s><b>{{loadedplaces?.[0]?.price | currency:'INR':true }}</b></s>
+              &nbsp;
+              <b class="disounted-price-color"
+                >{{loadedplaces?.[0]?.price -
+                (loadedplaces?.[0]?.price*loadedplaces?.[0]?.offPercentage)/100
+                | currency:'INR':true }}</b
+              >
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-img [src]="loadedplaces?.[0]?.imgUrl"></ion-img>
+          <ion-card-content>
+            <p>{{loadedplaces?.[0]?.description}}</p>
+          </ion-card-content>
+          <div class="ion-text-right">
+            <ion-button
+              class="ion-text-lowercase"
+              fill="clear"
+              color="primary"
+              [routerLink]="['/','places','search',loadedplaces?.[0]?.id]"
+              >detail<ion-icon name="arrow-forward-circle-outline"></ion-icon
+            ></ion-button>
+          </div>
+
+          <p class="para" *ngIf="loadedplaces?.[0]?.offPercentage">
+            {{loadedplaces?.[0]?.offPercentage}}% off
+          </p>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-virtual-scroll
+          [items]="listedLoadedPlaces"
+          approxItemHeight="70px"
+        >
+          <ion-item
+            *virtualItem="let place"
+            [routerLink]="['/','places','search',place.id]"
+            detail
+          >
+            <ion-thumbnail slot="start">
+              <ion-img [src]="place.imgUrl"></ion-img>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>
+                {{place.title}} &nbsp;
+                <strong *ngIf="place.offPercentage" class="tag"
+                  >{{place.offPercentage}}% off</strong
+                >
+              </h2>
+              <p>{{place.description}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-virtual-scroll>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

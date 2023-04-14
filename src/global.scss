@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,30 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// ion-title {
+//   text-align: left;
+//   padding: 0 25px;
+// }
+
+.price-color {
+  color: #666666;
+}
+
+.disounted-price-color {
+  color: blueviolet;
+}
+
+// percentage off tag button in offer page
+.price-off {
+  display: flex;
+  align-self: center;
+  justify-content: end;
+}
+
+.offer-button {
+  font-size: 10px;
+  --background: rgb(73, 102, 73);
+}
+
+
